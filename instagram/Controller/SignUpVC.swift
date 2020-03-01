@@ -52,6 +52,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         tf.borderStyle = .roundedRect
         tf.font = UIFont.systemFont(ofSize: 14)
         tf.addTarget(self, action: #selector(validateForm), for: .editingChanged)
+        tf.autocorrectionType = .no
         return tf
     }()
     
@@ -62,6 +63,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         tf.borderStyle = .roundedRect
         tf.font = UIFont.systemFont(ofSize: 14)
         tf.addTarget(self, action: #selector(validateForm), for: .editingChanged)
+        tf.autocorrectionType = .no
         return tf
     }()
     

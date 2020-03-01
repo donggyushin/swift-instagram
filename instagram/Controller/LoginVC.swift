@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class LoginVC: UIViewController {
     
@@ -42,6 +43,8 @@ class LoginVC: UIViewController {
         tf.backgroundColor = UIColor(white: 0, alpha: 0.03)
         tf.borderStyle = .roundedRect
         tf.font = UIFont.systemFont(ofSize: 14)
+        tf.autocapitalizationType = .none
+        tf.addTarget(self, action: #selector(formInvalidation), for: .editingChanged)
         return tf
     }()
     
@@ -52,6 +55,8 @@ class LoginVC: UIViewController {
         tf.backgroundColor = UIColor(white: 0, alpha: 0.03)
         tf.borderStyle = .roundedRect
         tf.font = UIFont.systemFont(ofSize: 14)
+        tf.addTarget(self, action: #selector(formInvalidation), for: .editingChanged)
+        tf.isSecureTextEntry = true
         return tf
     }()
     
@@ -61,6 +66,9 @@ class LoginVC: UIViewController {
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor(red: 149/255, green: 204/255, blue: 244/255, alpha: 1)
         button.layer.cornerRadius = 5
+        button.isEnabled = false
+        button.addTarget(self, action: #selector(handleSignIn), for: .touchUpInside)
+        
         return button
     }()
 
@@ -96,6 +104,30 @@ class LoginVC: UIViewController {
         view.addSubview(stackView)
         stackView.anchor(top: logoContainerView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 40, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, width: 0, height: 140)
         
+    }
+    
+    @objc func formInvalidation(){
+        guard emailTextField.hasText, passwordTextField.hasText else {
+            
+            signUpButton.isEnabled = false
+            signUpButton.backgroundColor = UIColor(red: 149/255, green: 204/255, blue: 244/255, alpha: 1)
+            return
+        }
+        
+        signUpButton.isEnabled = true
+        signUpButton.backgroundColor = UIColor(red: 17/255, green: 154/255, blue: 237/255, alpha: 1)
+    }
+    
+    @objc func handleSignIn(){
+        if let email = emailTextField.text, let password = passwordTextField.text {
+            Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+                guard error == nil else { return }
+                print("Success login")
+                let mainVC = MainTabVC()
+                mainVC.modalPresentationStyle = .fullScreen
+                self.present(mainVC, animated: true, completion: nil)
+            }
+        }
     }
  
 }
