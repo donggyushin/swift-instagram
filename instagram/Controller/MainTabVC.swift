@@ -61,6 +61,7 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate {
         
         let controllers = [
         feedVC, searchVC, postVC, notificationVC, profileVC]
+        
         viewControllers = controllers
         tabBar.tintColor = .black
         

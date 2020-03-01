@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 private let reuseIdentifier = "Cell"
 
@@ -15,13 +16,9 @@ class FeedVC: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Register cell classes
         self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-
-        // Do any additional setup after loading the view.
+        
+        configureLogoutButton()
     }
 
    
@@ -47,6 +44,31 @@ class FeedVC: UICollectionViewController {
         return cell
     }
 
+    func configureLogoutButton(){
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "logout", style: .plain, target: self, action: #selector(logoutUser))
+    }
+    
+    @objc func logoutUser(){
+        
+        
+        let alert = UIAlertController(title: "Notification", message: "Are you sure to logout?", preferredStyle: .actionSheet)
+        let success = UIAlertAction(title: "Yes", style: .default) { (_) in
+                do{
+                    try Auth.auth().signOut()
+                    let loginVC = UINavigationController(rootViewController: LoginVC())
+                    loginVC.modalPresentationStyle = .fullScreen
+                    self.present(loginVC, animated: true, completion: nil)
+                }catch let signOutError as NSError{
+                    print("Error signing out", signOutError)
+                }
+        }
+        
+        let cancel = UIAlertAction(title: "Nope", style: .cancel, handler: nil)
+        alert.addAction(success)
+        alert.addAction(cancel)
+        self.present(alert, animated: true, completion: nil)
+        
+    }
   
 
 }
