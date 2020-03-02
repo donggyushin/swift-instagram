@@ -7,8 +7,27 @@
 //
 
 import UIKit
+import Firebase
+
+protocol ProfileHeaderProtocol {
+    func followingsTapped(email:String)
+    
+    func followersTapped(email:String)
+}
 
 class ProfileHeader: UICollectionViewCell {
+    
+    let db = Firestore.firestore()
+    var delegate:ProfileHeaderProtocol?
+    
+    var email:String? {
+        didSet {
+            getFollowingAndFollowersNumber()
+            if(Auth.auth().currentUser!.email! != self.email!){
+                changeEditButtonToFollowButton()
+            }
+        }
+    }
     
     var fullname:String? {
         didSet {
@@ -150,7 +169,6 @@ class ProfileHeader: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        print("header view loaded")
         
         addSubview(profileImageView)
         profileImageView.anchor(top: self.topAnchor, left: self.leftAnchor, bottom: nil, right: nil, paddingTop: 16, paddingLeft: 14, paddingBottom: 0, paddingRight: 0, width: 60, height: 60)
@@ -161,10 +179,114 @@ class ProfileHeader: UICollectionViewCell {
         addSubview(editButton)
         editButton.anchor(top: postsLabel.bottomAnchor, left: postsLabel.leftAnchor, bottom: nil, right: self.rightAnchor, paddingTop: 13, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
         configureBottomButtons()
+        
+        
+        
+        followingLabel.isUserInteractionEnabled = true
+        let followingTapped = UITapGestureRecognizer(target: self, action: #selector(followingLabelTapped))
+        followingLabel.addGestureRecognizer(followingTapped)
+        
+        followersLabel.isUserInteractionEnabled = true
+        let followerTapped = UITapGestureRecognizer(target: self, action: #selector(followersTapped))
+        followersLabel.addGestureRecognizer(followerTapped)
+        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func changeEditButtonToFollowButton(){
+        let myEmail:String = Auth.auth().currentUser!.email!
+        let userEmail:String = self.email!
+        var following = false
+        
+        db.collection("following").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    
+                    let data = document.data()
+                    if let to = data["to"] as? String, let from = data["from"] as? String {
+                        if from == myEmail && to == userEmail { following = true }
+                    }
+                }
+                
+                if(following){
+                    self.editButton.setTitle("FOLLOWING", for: .normal)
+                    self.editButton.setTitleColor(.white, for: .normal)
+                    self.editButton.backgroundColor = .systemBlue
+                    self.editButton.layer.borderWidth = 0
+                    self.editButton.addTarget(self, action: #selector(self.unfollowUser), for: .touchUpInside)
+                    
+                }else {
+                    self.editButton.setTitle("FOLLOW", for: .normal)
+                    self.editButton.setTitleColor(.white, for: .normal)
+                    self.editButton.backgroundColor = .systemBlue
+                    self.editButton.layer.borderWidth = 0
+                    self.editButton.addTarget(self, action: #selector(self.followUser), for: .touchUpInside)
+                }
+                
+            }
+        }
+        
+        
+    }
+    
+    @objc func followUser() {
+        let myEmail:String = Auth.auth().currentUser!.email!
+        let userEmail:String = self.email!
+        
+        db.collection("following").addDocument(data: ["from" : myEmail, "to" : userEmail])
+        db.collection("followers").addDocument(data: ["from" : myEmail, "to" : userEmail])
+        
+        editButton.setTitle("FOLLOWING", for: .normal)
+        editButton.removeTarget(self, action: #selector(followUser), for: .touchUpInside)
+        editButton.addTarget(self, action: #selector(unfollowUser), for: .touchUpInside)
+        
+    }
+    
+    @objc func unfollowUser(){
+        let myEmail:String = Auth.auth().currentUser!.email!
+        let userEmail:String = self.email!
+        
+        editButton.removeTarget(self, action: #selector(unfollowUser), for: .touchUpInside)
+        
+        db.collection("following").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    
+                    let data = document.data()
+                    if let to = data["to"] as? String, let from = data["from"] as? String {
+                        if(from == myEmail && to == userEmail) {
+                            self.db.collection("following").document(document.documentID).delete()
+                        }
+                    }
+                }
+            }
+        }
+        
+        db.collection("followers").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    let data = document.data()
+                    if let to = data["to"] as? String, let from = data["from"] as? String {
+                        if(from == myEmail && to == userEmail) {
+                            self.db.collection("followers").document(document.documentID).delete()
+                        }
+                    }
+                }
+            }
+        }
+        
+        self.editButton.setTitle("FOLLOW", for: .normal)
+        self.editButton.addTarget(self, action: #selector(self.followUser), for: .touchUpInside)
+        
     }
     
     func configureBottomButtons(){
@@ -197,6 +319,64 @@ class ProfileHeader: UICollectionViewCell {
         stackview.anchor(top: self.topAnchor, left: nameLabel.rightAnchor, bottom: nil, right: self.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
     }
     
+    func getFollowingAndFollowersNumber(){
+        let email:String = self.email!
+        var following = 0
+        var followers = 0
+        
+        db.collection("following").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    
+                    let data = document.data()
+                    
+                    if let from = data["from"] as? String{
+                        if(email == from) {
+                            following = following + 1
+                        }
+                    }
+                    
+                }
+                
+                
+                
+                let mutableAttrString = NSMutableAttributedString(string: "\(following)\n", attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 18)])
+                mutableAttrString.append(NSAttributedString(string: "following", attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 12), NSAttributedString.Key.foregroundColor: UIColor.gray]))
+                
+                self.followingLabel.attributedText = mutableAttrString
+            }
+        }
+        db.collection("followers").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    let data = document.data()
+                    
+                    if let to = data["to"] as? String{
+                        if(email == to) {
+                            followers = followers + 1
+                        }
+                    }
+                }
+                
+                
+                let mutableAttrString = NSMutableAttributedString(string: "\(followers)\n", attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 18)])
+                mutableAttrString.append(NSAttributedString(string: "followers", attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 12), NSAttributedString.Key.foregroundColor: UIColor.gray]))
+                self.followersLabel.attributedText = mutableAttrString
+            }
+        }
+    }
     
+    @objc func followingLabelTapped(){
+        
+        self.delegate?.followingsTapped(email:self.email!)
+    }
+    
+    @objc func followersTapped(){
+        self.delegate?.followersTapped(email:self.email!)
+    }
     
 }

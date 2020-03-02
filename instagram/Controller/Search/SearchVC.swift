@@ -43,6 +43,15 @@ class SearchVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let user = users[indexPath.row]
+        
+        let userProfileVC = UserProfileVC(collectionViewLayout: UICollectionViewFlowLayout())
+        
+        userProfileVC.userFromSearch = user
+        
+        navigationController?.pushViewController(userProfileVC, animated: true)
+        
         tableView.deselectRow(at: indexPath, animated: true)
     }
     

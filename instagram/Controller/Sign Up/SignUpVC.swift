@@ -170,6 +170,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
                                 }
                                 print("Success saving user data to firebase database")
                                 print("document id: ", ref!.documentID)
+                                self.db.collection("users").document(ref!.documentID).updateData(["documentId" : ref!.documentID])
                                 self.navigationController?.popViewController(animated: true)
                             })
                             

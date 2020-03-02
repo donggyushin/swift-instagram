@@ -14,6 +14,8 @@ private let headerIdentifier = "ProfileHeader"
 
 class UserProfileVC: UICollectionViewController {
     
+    var userFromSearch:User?
+    
     var userEmail:String?
     var userProfileUrl:String?
     var username:String?
@@ -36,7 +38,13 @@ class UserProfileVC: UICollectionViewController {
         
         self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         self.collectionView!.register(ProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
-        fetchUserInfo()
+        
+        if (self.userFromSearch != nil){
+            self.navigationItem.title = userFromSearch!.username
+        }else {
+            fetchUserInfo()
+        }
+        
     }
 
   
@@ -146,6 +154,12 @@ extension UserProfileVC {
         override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier, for: indexPath) as! ProfileHeader
             
+            if let userFromSearch = self.userFromSearch {
+                header.fullname = userFromSearch.fullname!
+                header.profileImageUrl = userFromSearch.profileImageUrl!
+                header.email = userFromSearch.email!
+            }
+            
             if let fullname = self.fullname {
                 header.fullname = fullname
             }
@@ -154,6 +168,29 @@ extension UserProfileVC {
                 header.profileImageUrl = profileimageurl
             }
             
+            if let userEmail = self.userEmail {
+                header.email = userEmail
+            }
+            
+            header.delegate = self
+            
             return header
         }
+}
+
+extension UserProfileVC: ProfileHeaderProtocol {
+    func followingsTapped(email:String) {
+        let followingVC = FollowingVC()
+        followingVC.targetEmail = email
+        navigationController?.pushViewController(followingVC, animated: true)
+    }
+    
+    func followersTapped(email:String) {
+        let followingVC = FollowingVC()
+        followingVC.following = false
+        followingVC.targetEmail = email
+        navigationController?.pushViewController(followingVC, animated: true)
+    }
+    
+    
 }
