@@ -47,7 +47,7 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate {
             return
         }
         
-        let postVC = configureNavController(unselectedImage: unselectedPostImage!, selectedImage: selectedPostImage!, rootViewController: PostVC())
+        let postVC = configureNavController(unselectedImage: unselectedPostImage!, selectedImage: selectedPostImage!, rootViewController: SelectImageVC(collectionViewLayout: UICollectionViewFlowLayout()))
         
         // notification controller
         let selectedNotification = UIImage(named: "like_selected")
@@ -81,6 +81,20 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate {
     }
     
     
-
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        
+        let index = viewControllers!.firstIndex(of: viewController)
+        
+        if(index == 2) {
+            let selectImageVC = SelectImageVC(collectionViewLayout: UICollectionViewFlowLayout())
+            selectImageVC.modalPresentationStyle = .fullScreen
+            present(selectImageVC, animated: true, completion: nil)
+            return false
+        }
+        
+        return true
+    }
+    
+    
 
 }

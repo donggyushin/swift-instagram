@@ -20,9 +20,6 @@ class FollowingVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // following이 true이면 following 들을 불러오고, false이면 followers들을 불러온다. 
-        print(following)
-        
         if(following){
             navigationItem.title = "Following"
             fetchFollowings()
