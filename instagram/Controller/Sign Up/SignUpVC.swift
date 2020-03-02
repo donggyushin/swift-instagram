@@ -158,18 +158,22 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
                             let dictionaryValues = [
                                 "name": fullname,
                                 "username":username,
-                                "profileImageUrl": url.absoluteString
+                                "profileImageUrl": url.absoluteString,
+                                "email": email
                             ]
                             
-                            
-                            self.db.collection("users").addDocument(data: dictionaryValues, completion: { (error) in
+                            var ref:DocumentReference? = nil
+                            ref = self.db.collection("users").addDocument(data: dictionaryValues, completion: { (error) in
                                 if let error = error {
                                     print("There was error saving user data to firebase database")
                                     print(error)
                                 }
                                 print("Success saving user data to firebase database")
+                                print("document id: ", ref!.documentID)
                                 self.navigationController?.popViewController(animated: true)
                             })
+                            
+                        
                             
                             
                             

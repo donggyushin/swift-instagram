@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		70501703240CF93F0032F997 /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70501702240CF93F0032F997 /* SearchCell.swift */; };
+		70501705240D01450032F997 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70501704240D01450032F997 /* User.swift */; };
+		7086E217240BF26F00FA3EB6 /* ProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7086E216240BF26F00FA3EB6 /* ProfileHeader.swift */; };
 		70D43594240BCCB400263277 /* MainTabVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D43593240BCCB400263277 /* MainTabVC.swift */; };
 		70D43598240BCE3F00263277 /* FeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D43597240BCE3F00263277 /* FeedVC.swift */; };
 		70D4359A240BCE7A00263277 /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D43599240BCE7A00263277 /* SearchVC.swift */; };
@@ -27,6 +30,9 @@
 
 /* Begin PBXFileReference section */
 		4A466C067DAC4AFFC49F47D4 /* Pods-instagram.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-instagram.release.xcconfig"; path = "Target Support Files/Pods-instagram/Pods-instagram.release.xcconfig"; sourceTree = "<group>"; };
+		70501702240CF93F0032F997 /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
+		70501704240D01450032F997 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		7086E216240BF26F00FA3EB6 /* ProfileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeader.swift; sourceTree = "<group>"; };
 		70D43593240BCCB400263277 /* MainTabVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabVC.swift; sourceTree = "<group>"; };
 		70D43597240BCE3F00263277 /* FeedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedVC.swift; sourceTree = "<group>"; };
 		70D43599240BCE7A00263277 /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
@@ -68,6 +74,72 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		7086E20E240BF1FF00FA3EB6 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				70ECD677240B48EA0058B524 /* LoginVC.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		7086E20F240BF20800FA3EB6 /* Sign Up */ = {
+			isa = PBXGroup;
+			children = (
+				70ECD67C240B5E9A0058B524 /* SignUpVC.swift */,
+			);
+			path = "Sign Up";
+			sourceTree = "<group>";
+		};
+		7086E210240BF21900FA3EB6 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				70D43593240BCCB400263277 /* MainTabVC.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		7086E211240BF21F00FA3EB6 /* Feed */ = {
+			isa = PBXGroup;
+			children = (
+				70D43597240BCE3F00263277 /* FeedVC.swift */,
+			);
+			path = Feed;
+			sourceTree = "<group>";
+		};
+		7086E212240BF22600FA3EB6 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				70D43599240BCE7A00263277 /* SearchVC.swift */,
+				70501702240CF93F0032F997 /* SearchCell.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		7086E213240BF22D00FA3EB6 /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				70D4359B240BCE9B00263277 /* PostVC.swift */,
+			);
+			path = Post;
+			sourceTree = "<group>";
+		};
+		7086E214240BF23400FA3EB6 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				70D4359D240BCEB700263277 /* NotificationVC.swift */,
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
+		7086E215240BF23C00FA3EB6 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				70D4359F240BCECB00263277 /* UserProfileVC.swift */,
+				7086E216240BF26F00FA3EB6 /* ProfileHeader.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
 		70ECD654240B48420058B524 = {
 			isa = PBXGroup;
 			children = (
@@ -107,6 +179,7 @@
 		70ECD674240B48AE0058B524 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				70501704240D01450032F997 /* User.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -121,14 +194,14 @@
 		70ECD676240B48BD0058B524 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				70ECD677240B48EA0058B524 /* LoginVC.swift */,
-				70ECD67C240B5E9A0058B524 /* SignUpVC.swift */,
-				70D43593240BCCB400263277 /* MainTabVC.swift */,
-				70D43597240BCE3F00263277 /* FeedVC.swift */,
-				70D43599240BCE7A00263277 /* SearchVC.swift */,
-				70D4359B240BCE9B00263277 /* PostVC.swift */,
-				70D4359D240BCEB700263277 /* NotificationVC.swift */,
-				70D4359F240BCECB00263277 /* UserProfileVC.swift */,
+				7086E20E240BF1FF00FA3EB6 /* Login */,
+				7086E20F240BF20800FA3EB6 /* Sign Up */,
+				7086E210240BF21900FA3EB6 /* Main */,
+				7086E211240BF21F00FA3EB6 /* Feed */,
+				7086E212240BF22600FA3EB6 /* Search */,
+				7086E213240BF22D00FA3EB6 /* Post */,
+				7086E214240BF23400FA3EB6 /* Notification */,
+				7086E215240BF23C00FA3EB6 /* Profile */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -266,14 +339,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70501703240CF93F0032F997 /* SearchCell.swift in Sources */,
 				70D4359A240BCE7A00263277 /* SearchVC.swift in Sources */,
 				70D4359E240BCEB700263277 /* NotificationVC.swift in Sources */,
 				70ECD661240B48420058B524 /* AppDelegate.swift in Sources */,
 				70D435A0240BCECB00263277 /* UserProfileVC.swift in Sources */,
 				70D43598240BCE3F00263277 /* FeedVC.swift in Sources */,
+				70501705240D01450032F997 /* User.swift in Sources */,
 				70D43594240BCCB400263277 /* MainTabVC.swift in Sources */,
 				70ECD663240B48420058B524 /* SceneDelegate.swift in Sources */,
 				70ECD678240B48EA0058B524 /* LoginVC.swift in Sources */,
+				7086E217240BF26F00FA3EB6 /* ProfileHeader.swift in Sources */,
 				70D4359C240BCE9B00263277 /* PostVC.swift in Sources */,
 				70ECD67D240B5E9A0058B524 /* SignUpVC.swift in Sources */,
 				70ECD67B240B4CD60058B524 /* Extensions.swift in Sources */,
