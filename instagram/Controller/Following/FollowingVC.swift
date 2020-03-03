@@ -104,7 +104,10 @@ class FollowingVC: UITableViewController {
                                 }
                             }
                             
-                            self.tableView.reloadData()
+                            DispatchQueue.main.async {
+                                self.tableView.reloadData()
+                            }
+                            
                         }
                     }
                 }
@@ -151,8 +154,10 @@ class FollowingVC: UITableViewController {
                                 }
                                 
                             }
+                            DispatchQueue.main.async {
+                                self.tableView.reloadData()
+                            }
                             
-                            self.tableView.reloadData()
                         }
                     }
                 }

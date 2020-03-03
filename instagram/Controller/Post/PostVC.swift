@@ -36,6 +36,7 @@ class PostVC: UIViewController {
     lazy var TextField:UITextView = {
         let textView = UITextView()
         textView.backgroundColor = UIColor(red: 242/255, green: 242/255, blue: 242/255, alpha: 1.0)
+        textView.autocorrectionType = .no
         return textView
     }()
     
@@ -112,23 +113,35 @@ class PostVC: UIViewController {
                 }
                 // download URL을 얻은 후
                 
-                
+                let date = Date().description
                 
                 // post 데이터베이스에 정보를 저장한다.
                 var ref:DocumentReference? = nil
                 let data:[String:Any] = [
                     "useremail": Auth.auth().currentUser!.email!,
                     "imageurl" : downloadUrl.absoluteString,
-                    "text" : self.TextField.text!
+                    "text" : self.TextField.text!,
+                    "date" : date
                 ]
                 ref = self.db.collection("posts").addDocument(data: data, completion: { (error) in
                     if let error = error {
                         print("Error adding document: \(error)")
                     }else {
                         print("Document added with ID: \(ref!.documentID)")
-                        // post view를 모두 dismiss 한다
-                        self.delegate?.dismissPostView()
-                        self.dismiss(animated: false, completion: nil)
+                        
+                        self.db.collection("posts").document(ref!.documentID).updateData(["id" : ref!.documentID]) { (error) in
+                            if let error = error {
+                                print("Fail to update error: ", error.localizedDescription)
+                            }else {
+                                // post view를 모두 dismiss 한다
+                                self.delegate?.dismissPostView()
+                                self.dismiss(animated: false, completion: nil)
+                            }
+                        }
+                        
+                        
+                        
+                        
                     }
                 })
                 

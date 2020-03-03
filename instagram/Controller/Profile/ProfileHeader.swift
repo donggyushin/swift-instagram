@@ -323,6 +323,7 @@ class ProfileHeader: UICollectionViewCell {
         let email:String = self.email!
         var following = 0
         var followers = 0
+        var posts = 0
         
         db.collection("following").getDocuments() { (querySnapshot, err) in
             if let err = err {
@@ -368,6 +369,27 @@ class ProfileHeader: UICollectionViewCell {
                 self.followersLabel.attributedText = mutableAttrString
             }
         }
+        
+        db.collection("posts").getDocuments { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            }else {
+                for document in querySnapshot!.documents {
+                    let data = document.data()
+                    
+                    if let useremail = data["useremail"] as? String {
+                        if(email == useremail) {
+                            posts = posts + 1
+                        }
+                    }
+                }
+                let mutableAttrString = NSMutableAttributedString(string: "\(posts)\n", attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 18)])
+                               mutableAttrString.append(NSAttributedString(string: "posts", attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 12), NSAttributedString.Key.foregroundColor: UIColor.gray]))
+                               self.postsLabel.attributedText = mutableAttrString
+                
+            }
+        }
+        
     }
     
     @objc func followingLabelTapped(){

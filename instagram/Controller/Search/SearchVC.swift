@@ -50,7 +50,9 @@ class SearchVC: UITableViewController {
         
         userProfileVC.userFromSearch = user
         
-        navigationController?.pushViewController(userProfileVC, animated: true)
+        DispatchQueue.main.async {
+            self.navigationController?.pushViewController(userProfileVC, animated: true)
+        }
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -88,7 +90,10 @@ class SearchVC: UITableViewController {
                     self.users.append(user)
                     
                 }
-                self.tableView.reloadData()
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+                
             }
         }
     }

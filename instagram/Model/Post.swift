@@ -9,7 +9,9 @@
 import Foundation
 
 struct Post {
+    let id:String
     let imageurl:String
     let text:String
     let useremail:String
+    let date:String
 }

@@ -32,6 +32,7 @@
 		70ECD67F240B6A300058B524 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70ECD67E240B6A300058B524 /* GoogleService-Info.plist */; };
 		70F3DA40240E212D0050F9EC /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F3DA3F240E212D0050F9EC /* Post.swift */; };
 		70F3DA42240E23480050F9EC /* PostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F3DA41240E23480050F9EC /* PostCollectionViewCell.swift */; };
+		70F5106D240E50CF0038E904 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F5106C240E50CF0038E904 /* FeedCell.swift */; };
 		9F6061AAB25BC7B836C96386 /* Pods_instagram.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F8E2812697EF7A90070A937 /* Pods_instagram.framework */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +65,7 @@
 		70ECD67E240B6A300058B524 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		70F3DA3F240E212D0050F9EC /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		70F3DA41240E23480050F9EC /* PostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCollectionViewCell.swift; sourceTree = "<group>"; };
+		70F5106C240E50CF0038E904 /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
 		812FDE153C325C6B9EF0B98A /* Pods-instagram.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-instagram.debug.xcconfig"; path = "Target Support Files/Pods-instagram/Pods-instagram.debug.xcconfig"; sourceTree = "<group>"; };
 		9F8E2812697EF7A90070A937 /* Pods_instagram.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_instagram.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -116,6 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				70D43597240BCE3F00263277 /* FeedVC.swift */,
+				70F5106C240E50CF0038E904 /* FeedCell.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -383,6 +386,7 @@
 				70ECD663240B48420058B524 /* SceneDelegate.swift in Sources */,
 				70ECD678240B48EA0058B524 /* LoginVC.swift in Sources */,
 				7093AFDD240D53C50058F650 /* SelectImageVC.swift in Sources */,
+				70F5106D240E50CF0038E904 /* FeedCell.swift in Sources */,
 				7086E217240BF26F00FA3EB6 /* ProfileHeader.swift in Sources */,
 				70D4359C240BCE9B00263277 /* PostVC.swift in Sources */,
 				70ECD67D240B5E9A0058B524 /* SignUpVC.swift in Sources */,

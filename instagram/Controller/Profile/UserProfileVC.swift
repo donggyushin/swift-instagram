@@ -85,38 +85,37 @@ class UserProfileVC: UICollectionViewController {
         guard let email = Auth.auth().currentUser?.email else {
             return
         }
-        
-        
-        db.collection("users").whereField("email", isEqualTo: email)
-            .getDocuments { (querySnapshot, err) in
-                if let err = err {
-                    print("Error getting documents: \(err)")
-                } else {
-                    for document in querySnapshot!.documents {
-                        
-                        let data = document.data()
-                        
-                        guard let email = data["email"] as? String,
-                        let name = data["username"] as? String,
-                        let full = data["name"] as? String,
-                        let profileurl = data["profileImageUrl"] as? String
-                        else {
-                            return
-                        }
-                        
-                        
+        db.collection("users").getDocuments { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            }else {
+                for document in querySnapshot!.documents {
+                    let data = document.data()
+                    
+                    guard let email2 = data["email"] as? String,
+                    let name = data["username"] as? String,
+                    let full = data["name"] as? String,
+                    let profileurl = data["profileImageUrl"] as? String
+                    else {
+                        return
+                    }
+                    
+                    if email2 == email {
                         self.userEmail = email
                         self.username = name
                         self.userProfileUrl = profileurl
                         self.fullname = full
-                        
-                        
-                        self.navigationItem.title = name
-                        
-                        self.collectionView.reloadData()
-                        
+                        break;
                     }
                 }
+                
+                self.navigationItem.title = self.username
+                
+                DispatchQueue.main.async {
+                    self.collectionView.reloadSections(IndexSet(integer: 0))
+                }
+                
+            }
         }
         
     }
@@ -133,17 +132,20 @@ class UserProfileVC: UICollectionViewController {
                     let data = document.data()
                     guard let imageurl = data["imageurl"] as? String,
                     let useremail = data["useremail"] as? String,
-                    let text = data["text"] as? String
+                    let text = data["text"] as? String,
+                    let date = data["date"] as? String,
+                    let id = data["id"] as? String
                     else { return }
                     
                     if currentUserEmail == useremail {
-                        let post = Post(imageurl: imageurl, text: text, useremail: useremail)
+                        let post = Post(id:id, imageurl: imageurl, text: text, useremail: useremail, date:date)
                         self.posts.append(post)
                     }
                     
                 }
+                
                 DispatchQueue.main.async {
-                    self.collectionView.reloadData()
+                    self.collectionView.reloadSections(IndexSet(integer: 0))
                 }
                 
             }
@@ -163,11 +165,13 @@ class UserProfileVC: UICollectionViewController {
                     let data = document.data()
                     guard let imageurl = data["imageurl"] as? String,
                     let useremail = data["useremail"] as? String,
-                    let text = data["text"] as? String
+                    let text = data["text"] as? String,
+                    let date = data["date"] as? String,
+                    let id = data["id"] as? String
                     else { return }
                     
                     if myemail == useremail {
-                        let post = Post(imageurl: imageurl, text: text, useremail: useremail)
+                        let post = Post(id:id, imageurl: imageurl, text: text, useremail: useremail, date:date)
                         self.posts.append(post)
                     }
                     
@@ -185,14 +189,19 @@ class UserProfileVC: UICollectionViewController {
 
 extension UserProfileVC {
 
-    
         override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+            
+            
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier, for: indexPath) as! ProfileHeader
             
             if let userFromSearch = self.userFromSearch {
                 header.fullname = userFromSearch.fullname!
                 header.profileImageUrl = userFromSearch.profileImageUrl!
                 header.email = userFromSearch.email!
+                
+                header.delegate = self
+                
+                return header
             }
             
             if let fullname = self.fullname {
@@ -208,6 +217,7 @@ extension UserProfileVC {
             }
             
             header.delegate = self
+            
             
             return header
         }
@@ -252,3 +262,4 @@ extension UserProfileVC: UICollectionViewDelegateFlowLayout {
 
         
 }
+
