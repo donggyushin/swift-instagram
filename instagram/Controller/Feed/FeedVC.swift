@@ -43,9 +43,13 @@ class FeedVC: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! FeedCell
-    
+        let post = self.posts[indexPath.row]
         // Configure the cell
-    
+        
+        cell.captionText = post.text
+        cell.feedImageUrl = post.imageurl
+        cell.userEmail = post.useremail
+        
         return cell
     }
 
@@ -131,7 +135,7 @@ extension FeedVC:UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = self.view.frame.width
         
-        return CGSize(width: width, height: width + 100.0)
+        return CGSize(width: width, height: width + 140.0)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
