@@ -14,6 +14,8 @@ private let headerIdentifier = "ProfileHeader"
 
 class UserProfileVC: UICollectionViewController {
     
+    var posts = [Post]()
+    
     var userFromSearch:User?
     
     var userEmail:String?
@@ -36,13 +38,15 @@ class UserProfileVC: UICollectionViewController {
         collectionView.dataSource = self
         collectionView.backgroundColor = .white
         
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        self.collectionView!.register(PostCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         self.collectionView!.register(ProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
         
         if (self.userFromSearch != nil){
             self.navigationItem.title = userFromSearch!.username
+            fetchCurrentUsersPosts()
         }else {
             fetchUserInfo()
+            fetchMyPosts()
         }
         
     }
@@ -59,7 +63,7 @@ class UserProfileVC: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return 0
+        return self.posts.count
     }
     
 
@@ -67,44 +71,16 @@ class UserProfileVC: UICollectionViewController {
    
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! PostCollectionViewCell
     
         // Configure the cell
+        cell.imageForCell = self.posts[indexPath.row].imageurl
     
         return cell
     }
-
+    
     // MARK: UICollectionViewDelegate
 
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-    
-    }
-    */
-    
     func fetchUserInfo(){
         guard let email = Auth.auth().currentUser?.email else {
             return
@@ -143,6 +119,65 @@ class UserProfileVC: UICollectionViewController {
                 }
         }
         
+    }
+    
+    func fetchCurrentUsersPosts(){
+        
+        let currentUserEmail:String = self.userFromSearch!.email!
+        
+        db.collection("posts").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    let data = document.data()
+                    guard let imageurl = data["imageurl"] as? String,
+                    let useremail = data["useremail"] as? String,
+                    let text = data["text"] as? String
+                    else { return }
+                    
+                    if currentUserEmail == useremail {
+                        let post = Post(imageurl: imageurl, text: text, useremail: useremail)
+                        self.posts.append(post)
+                    }
+                    
+                }
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+                
+            }
+        }
+        
+    }
+    
+    func fetchMyPosts(){
+        
+        guard let myemail:String = Auth.auth().currentUser?.email else { return }
+        
+        db.collection("posts").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    let data = document.data()
+                    guard let imageurl = data["imageurl"] as? String,
+                    let useremail = data["useremail"] as? String,
+                    let text = data["text"] as? String
+                    else { return }
+                    
+                    if myemail == useremail {
+                        let post = Post(imageurl: imageurl, text: text, useremail: useremail)
+                        self.posts.append(post)
+                    }
+                    
+                }
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+                
+            }
+        }
     }
 
 }
@@ -193,4 +228,27 @@ extension UserProfileVC: ProfileHeaderProtocol {
     }
     
     
+    
+    
+}
+
+extension UserProfileVC: UICollectionViewDelegateFlowLayout {
+    // MARK: 컬렉션뷰 셀 사이즈
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = (self.view.frame.width - 2.0) / 3
+        return CGSize(width: width, height: width)
+    }
+    
+    //Use for interspacing
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 1.0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 1.0
+    }
+
+        
 }
