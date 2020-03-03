@@ -120,11 +120,29 @@ class SelectImageVC: UICollectionViewController, UICollectionViewDelegateFlowLay
 }
 
 extension SelectImageVC:SelectImageHeaderCellProtocol {
+    
+    
     func cancleButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
     
+    func submitPressed() {
+        let postVc = PostVC()
+        postVc.selectedImage = self.selectedImage!
+        postVc.delegate = self
+        present(postVc, animated: true, completion: nil)
+    }
     
+    
+}
+
+extension SelectImageVC:PostVCProtocol {
+    func dismissPostView() {
+        DispatchQueue.main.async {
+            self.dismiss(animated: true, completion: nil)
+        }
+        
+    }
 }
 
 

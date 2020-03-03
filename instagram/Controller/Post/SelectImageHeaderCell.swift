@@ -10,6 +10,7 @@ import UIKit
 
 protocol SelectImageHeaderCellProtocol {
     func cancleButtonTapped()
+    func submitPressed()
 }
 
 class SelectImageHeaderCell: UICollectionViewCell {
@@ -44,6 +45,7 @@ class SelectImageHeaderCell: UICollectionViewCell {
         button.isUserInteractionEnabled = true
         button.setTitleColor(.systemBlue, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.addTarget(self, action: #selector(submitPressed), for: .touchUpInside)
         return button
     }()
     
@@ -76,6 +78,10 @@ class SelectImageHeaderCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func submitPressed(){
+        self.delegate?.submitPressed()
     }
     
     @objc func cancleButtonTapped(){
