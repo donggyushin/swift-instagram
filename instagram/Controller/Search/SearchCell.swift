@@ -24,26 +24,27 @@ class SearchCell: UITableViewCell {
     
     var profileimageurl:String? {
         didSet {
-            let url = URL(string: self.profileimageurl!)
-            
-            guard url != nil else { return }
-            
-            do{
-            
-                let data = try Data(contentsOf: url!)
+            DispatchQueue.main.async {
+                let url = URL(string: self.profileimageurl!)
                 
-                let image = UIImage(data: data)
+                guard url != nil else { return }
                 
-                guard image != nil else {
-                    return
+                do{
+                
+                    let data = try Data(contentsOf: url!)
+                    
+                    let image = UIImage(data: data)
+                    
+                    guard image != nil else {
+                        return
+                    }
+                    
+                    self.profileImageView.image = image!
+                    
+                }catch {
+                    
                 }
-                
-                self.profileImageView.image = image!
-                
-            }catch {
-                
             }
-            
             
         }
     }

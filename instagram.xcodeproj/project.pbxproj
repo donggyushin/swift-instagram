@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		704A0DDD240F87E700EB8DA2 /* OneFeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704A0DDC240F87E700EB8DA2 /* OneFeedVC.swift */; };
+		704A0DE2240FC5F100EB8DA2 /* CommentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704A0DE1240FC5F100EB8DA2 /* CommentVC.swift */; };
+		704A0DE4240FC8A700EB8DA2 /* CommentHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704A0DE3240FC8A700EB8DA2 /* CommentHeader.swift */; };
+		704A0DE6240FD33400EB8DA2 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704A0DE5240FD33400EB8DA2 /* CommentCell.swift */; };
 		70501703240CF93F0032F997 /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70501702240CF93F0032F997 /* SearchCell.swift */; };
 		70501705240D01450032F997 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70501704240D01450032F997 /* User.swift */; };
 		7086E217240BF26F00FA3EB6 /* ProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7086E216240BF26F00FA3EB6 /* ProfileHeader.swift */; };
@@ -38,6 +42,10 @@
 
 /* Begin PBXFileReference section */
 		4A466C067DAC4AFFC49F47D4 /* Pods-instagram.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-instagram.release.xcconfig"; path = "Target Support Files/Pods-instagram/Pods-instagram.release.xcconfig"; sourceTree = "<group>"; };
+		704A0DDC240F87E700EB8DA2 /* OneFeedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneFeedVC.swift; sourceTree = "<group>"; };
+		704A0DE1240FC5F100EB8DA2 /* CommentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentVC.swift; sourceTree = "<group>"; };
+		704A0DE3240FC8A700EB8DA2 /* CommentHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentHeader.swift; sourceTree = "<group>"; };
+		704A0DE5240FD33400EB8DA2 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		70501702240CF93F0032F997 /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
 		70501704240D01450032F997 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		7086E216240BF26F00FA3EB6 /* ProfileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeader.swift; sourceTree = "<group>"; };
@@ -88,6 +96,16 @@
 				9F8E2812697EF7A90070A937 /* Pods_instagram.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		704A0DE0240FC5D900EB8DA2 /* Comment */ = {
+			isa = PBXGroup;
+			children = (
+				704A0DE1240FC5F100EB8DA2 /* CommentVC.swift */,
+				704A0DE3240FC8A700EB8DA2 /* CommentHeader.swift */,
+				704A0DE5240FD33400EB8DA2 /* CommentCell.swift */,
+			);
+			path = Comment;
 			sourceTree = "<group>";
 		};
 		7086E20E240BF1FF00FA3EB6 /* Login */ = {
@@ -157,6 +175,7 @@
 				70D4359F240BCECB00263277 /* UserProfileVC.swift */,
 				7086E216240BF26F00FA3EB6 /* ProfileHeader.swift */,
 				70F3DA41240E23480050F9EC /* PostCollectionViewCell.swift */,
+				704A0DDC240F87E700EB8DA2 /* OneFeedVC.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -225,6 +244,7 @@
 		70ECD676240B48BD0058B524 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				704A0DE0240FC5D900EB8DA2 /* Comment */,
 				7093AFD7240D3F760058F650 /* Following */,
 				7086E20E240BF1FF00FA3EB6 /* Login */,
 				7086E20F240BF20800FA3EB6 /* Sign Up */,
@@ -374,14 +394,17 @@
 				70501703240CF93F0032F997 /* SearchCell.swift in Sources */,
 				70D4359A240BCE7A00263277 /* SearchVC.swift in Sources */,
 				70D4359E240BCEB700263277 /* NotificationVC.swift in Sources */,
+				704A0DDD240F87E700EB8DA2 /* OneFeedVC.swift in Sources */,
 				70ECD661240B48420058B524 /* AppDelegate.swift in Sources */,
 				7093AFE1240D5B8E0058F650 /* SelectImageCell.swift in Sources */,
+				704A0DE2240FC5F100EB8DA2 /* CommentVC.swift in Sources */,
 				70F3DA42240E23480050F9EC /* PostCollectionViewCell.swift in Sources */,
 				70D435A0240BCECB00263277 /* UserProfileVC.swift in Sources */,
 				7093AFD9240D3F930058F650 /* FollowingVC.swift in Sources */,
 				7093AFDF240D598D0058F650 /* SelectImageHeaderCell.swift in Sources */,
 				70D43598240BCE3F00263277 /* FeedVC.swift in Sources */,
 				70501705240D01450032F997 /* User.swift in Sources */,
+				704A0DE6240FD33400EB8DA2 /* CommentCell.swift in Sources */,
 				70D43594240BCCB400263277 /* MainTabVC.swift in Sources */,
 				70ECD663240B48420058B524 /* SceneDelegate.swift in Sources */,
 				70ECD678240B48EA0058B524 /* LoginVC.swift in Sources */,
@@ -392,6 +415,7 @@
 				70ECD67D240B5E9A0058B524 /* SignUpVC.swift in Sources */,
 				70ECD67B240B4CD60058B524 /* Extensions.swift in Sources */,
 				7093AFDB240D41180058F650 /* FollowingCell.swift in Sources */,
+				704A0DE4240FC8A700EB8DA2 /* CommentHeader.swift in Sources */,
 				70F3DA40240E212D0050F9EC /* Post.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

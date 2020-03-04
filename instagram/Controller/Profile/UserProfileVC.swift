@@ -75,6 +75,9 @@ class UserProfileVC: UICollectionViewController {
     
         // Configure the cell
         cell.imageForCell = self.posts[indexPath.row].imageurl
+        cell.feedId = self.posts[indexPath.row].id
+        cell.delegate = self
+        
     
         return cell
     }
@@ -263,3 +266,11 @@ extension UserProfileVC: UICollectionViewDelegateFlowLayout {
         
 }
 
+extension UserProfileVC:PostCollectionViewCellProtocol {
+    func feedCellTaped(feedId: String) {
+        let oneFeedVc = OneFeedVC()
+        oneFeedVc.feedId = feedId
+        navigationController?.pushViewController(oneFeedVc, animated: true)
+    }
+    
+}

@@ -38,26 +38,28 @@ class ProfileHeader: UICollectionViewCell {
     
     var profileImageUrl:String? {
         didSet {
-            let url = URL(string: self.profileImageUrl!)
-            
-            guard url != nil else {
-                print("Fail to create url")
-                return
+            DispatchQueue.main.async {
+                let url = URL(string: self.profileImageUrl!)
                 
-            }
-            
-            do{
-                let data = try Data(contentsOf: url!)
-                let image = UIImage(data: data)
-                
-                guard image != nil else {
-                    print("Fail to make image")
+                guard url != nil else {
+                    print("Fail to create url")
                     return
+                    
                 }
                 
-                profileImageView.image = image!
-            }catch {
-                print("Fail to make data")
+                do{
+                    let data = try Data(contentsOf: url!)
+                    let image = UIImage(data: data)
+                    
+                    guard image != nil else {
+                        print("Fail to make image")
+                        return
+                    }
+                    
+                    self.profileImageView.image = image!
+                }catch {
+                    print("Fail to make data")
+                }
             }
             
         }

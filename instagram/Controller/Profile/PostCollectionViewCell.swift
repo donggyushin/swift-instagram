@@ -8,7 +8,15 @@
 
 import UIKit
 
+protocol PostCollectionViewCellProtocol {
+    func feedCellTaped(feedId:String)
+}
+
 class PostCollectionViewCell: UICollectionViewCell {
+    
+    var feedId:String?
+    
+    var delegate:PostCollectionViewCellProtocol?
     
     var imageForCell:String? {
         didSet {
@@ -36,6 +44,11 @@ class PostCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        imageView.isUserInteractionEnabled = true
+        
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageCellTapped))
+        imageView.addGestureRecognizer(tapRecognizer)
+        
         return imageView
     }()
     
@@ -53,6 +66,11 @@ class PostCollectionViewCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func imageCellTapped() {
+        guard self.feedId != nil else { return }
+        delegate?.feedCellTaped(feedId: self.feedId!)
     }
     
 }

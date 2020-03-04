@@ -21,7 +21,7 @@ class FeedVC: UICollectionViewController {
 
         self.collectionView!.register(FeedCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         collectionView.backgroundColor = .white
-        navigationItem.title = "Feed"
+        navigationItem.title = "Treduler"
         configureLogoutButton()
         fetchingPosts()
     }

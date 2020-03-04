@@ -21,13 +21,15 @@ class FeedCell: UICollectionViewCell {
     
     var feedImageUrl:String? {
         didSet {
-            do {
-                let url = URL(string: self.feedImageUrl!)
-                guard url != nil else { return }
-                let data = try Data(contentsOf: url!)
-                feedImage.image = UIImage(data: data)
-            }catch {
-                
+            DispatchQueue.main.async {
+                do {
+                    let url = URL(string: self.feedImageUrl!)
+                    guard url != nil else { return }
+                    let data = try Data(contentsOf: url!)
+                    self.feedImage.image = UIImage(data: data)
+                }catch {
+                    
+                }
             }
             
         }
@@ -39,8 +41,6 @@ class FeedCell: UICollectionViewCell {
             captionLabel.text = self.captionText!
         }
     }
-    
-    
     
     lazy var profileImageView:UIImageView = {
         let imageView = UIImageView()
@@ -242,21 +242,19 @@ class FeedCell: UICollectionViewCell {
                             else { return }
                         
                         if email == useremail {
-                            do {
-                                let url = URL(string: profileImageUrl)
-                                guard url != nil else { return }
-                                let data = try Data(contentsOf: url!)
+                                
                                 DispatchQueue.main.async {
-                                    self.profileImageView.image = UIImage(data: data)
-                                    self.username.text = username
-                                    self.usernameLabel.text = username
+                                    do{
+                                        let url = URL(string: profileImageUrl)
+                                        guard url != nil else { return }
+                                        let data = try Data(contentsOf: url!)
+                                        self.profileImageView.image = UIImage(data: data)
+                                        self.username.text = username
+                                        self.usernameLabel.text = username
+                                    }catch {
+                                        
+                                    }   
                                 }
-                                
-                                
-                            }catch {
-                                
-                            }
-                            
                         }
                     }
                 }
