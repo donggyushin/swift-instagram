@@ -49,6 +49,8 @@ class FeedVC: UICollectionViewController {
         cell.captionText = post.text
         cell.feedImageUrl = post.imageurl
         cell.userEmail = post.useremail
+        cell.feedId = post.id
+        cell.delegate = self
         
         return cell
     }
@@ -140,5 +142,13 @@ extension FeedVC:UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 1.0
+    }
+}
+
+extension FeedVC:FeedCellProtocol {
+    func commentIconTapped(feedId: String) {
+        let commentVc = CommentVC(collectionViewLayout:UICollectionViewFlowLayout())
+        commentVc.feedId = feedId
+        navigationController?.pushViewController(commentVc, animated: true)
     }
 }

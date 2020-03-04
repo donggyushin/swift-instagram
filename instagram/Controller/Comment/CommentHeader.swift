@@ -7,8 +7,16 @@
 //
 
 import UIKit
+import Firebase
 
 class CommentHeader: UICollectionViewCell {
+    let db = Firestore.firestore()
+    
+    var feedId:String? {
+        didSet {
+            fetchUsernameAndCaption(feedId: self.feedId!)
+        }
+    }
     
     lazy var divider:UIView = {
         let view = UIView()
@@ -68,6 +76,44 @@ class CommentHeader: UICollectionViewCell {
         usernameLabel.centerYAnchor.constraint(equalTo: usernameAndCaptionContainer.centerYAnchor).isActive = true
         captionLabel.leftAnchor.constraint(equalTo: usernameLabel.rightAnchor, constant: 7).isActive = true
         captionLabel.centerYAnchor.constraint(equalTo: usernameAndCaptionContainer.centerYAnchor).isActive = true 
+    }
+    
+    func fetchUsernameAndCaption(feedId:String){
+        let postRef = db.collection("posts").document(feedId)
+        postRef.getDocument { (documentSnapshot, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            }else {
+                let data = documentSnapshot!.data()!
+                guard let caption = data["text"] as? String,
+                let useremail = data["useremail"] as? String
+                else { return }
+                self.captionLabel.text = caption
+                
+                let userRef = self.db.collection("users")
+                
+                userRef.getDocuments { (querySnapshot, error) in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    }else {
+                        for document in querySnapshot!.documents {
+                            let data = document.data()
+                            guard let email = data["email"] as? String,
+                            let username = data["username"] as? String
+                                else { return }
+                            
+                            if useremail == email {
+                                self.usernameLabel.text = username
+                                return
+                            }
+                            
+                        }
+                    }
+                }
+                
+                
+            }
+        }
     }
     
 }

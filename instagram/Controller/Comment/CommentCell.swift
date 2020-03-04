@@ -10,6 +10,12 @@ import UIKit
 
 class CommentCell: UICollectionViewCell {
     
+    var comment:Comment? {
+        didSet {
+            commentLabel.text = self.comment!.caption
+        }
+    }
+    
     lazy var usernameAndCommentContainer:UIView = {
         let view = UIView()
         return view
@@ -25,12 +31,21 @@ class CommentCell: UICollectionViewCell {
     lazy var commentLabel:UILabel = {
         let label = UILabel()
         label.text = "test comment"
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
         label.font = UIFont.systemFont(ofSize: 12)
         return label
     }()
     
+    lazy var width: NSLayoutConstraint = {
+        let width = contentView.widthAnchor.constraint(equalToConstant: bounds.size.width)
+        width.isActive = true
+        return width
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
+        contentView.translatesAutoresizingMaskIntoConstraints = false
         configureView()
     }
     
@@ -39,6 +54,9 @@ class CommentCell: UICollectionViewCell {
     }
     
     func configureView(){
+        
+        
+        
         addSubview(usernameAndCommentContainer)
         addSubview(usernameLabel)
         addSubview(commentLabel)
@@ -50,9 +68,21 @@ class CommentCell: UICollectionViewCell {
         usernameAndCommentContainer.topAnchor.constraint(equalTo: topAnchor).isActive = true
         usernameAndCommentContainer.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         usernameLabel.leftAnchor.constraint(equalTo: usernameAndCommentContainer.leftAnchor, constant: 10).isActive = true
-        usernameLabel.centerYAnchor.constraint(equalTo: usernameAndCommentContainer.centerYAnchor).isActive = true
+//        usernameLabel.centerYAnchor.constraint(equalTo: usernameAndCommentContainer.centerYAnchor).isActive = true
+        usernameLabel.topAnchor.constraint(equalTo: usernameAndCommentContainer.topAnchor, constant: 10).isActive = true
         commentLabel.leftAnchor.constraint(equalTo: usernameLabel.rightAnchor, constant: 7).isActive = true
-        commentLabel.centerYAnchor.constraint(equalTo: usernameAndCommentContainer.centerYAnchor).isActive = true
+        commentLabel.topAnchor.constraint(equalTo: usernameAndCommentContainer.topAnchor, constant: 10).isActive = true
+        commentLabel.rightAnchor.constraint(equalTo: usernameAndCommentContainer.rightAnchor, constant: 10).isActive = true
+//        commentLabel.centerYAnchor.constraint(equalTo: usernameAndCommentContainer.centerYAnchor).isActive = true
+        
+        
+        contentView.bottomAnchor.constraint(equalTo: usernameAndCommentContainer.bottomAnchor, constant: 10).isActive = true
+    }
+    
+    
+    override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
+        width.constant = bounds.size.width
+        return contentView.systemLayoutSizeFitting(CGSize(width: targetSize.width, height: 1))
     }
     
 }

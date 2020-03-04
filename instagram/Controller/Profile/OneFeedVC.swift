@@ -11,6 +11,8 @@ import Firebase
 
 class OneFeedVC: UIViewController {
     
+    var likeId:String?
+    
     var user:User? {
         didSet {
             
@@ -110,8 +112,20 @@ class OneFeedVC: UIViewController {
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         iv.image = UIImage(named: "like_unselected")
+        iv.isUserInteractionEnabled = true
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(heartTapped))
+        iv.addGestureRecognizer(tapRecognizer)
         return iv
     }()
+    
+    @objc func heartTapped(){
+        likeFunction()
+        
+    }
+    
+    @objc func fullheartTapped(){
+        unlikeFunction()
+    }
     
     lazy var commentIcon:UIImageView = {
         let iv = UIImageView()
@@ -132,9 +146,11 @@ class OneFeedVC: UIViewController {
         return iv
     }()
     
+    var likes:Int = 0
+    
     lazy var likeLabel:UILabel = {
         let label = UILabel()
-        label.text = "0 likes"
+        label.text = "\(likes) likes"
         label.font = UIFont.boldSystemFont(ofSize: 12)
         return label
     }()
@@ -160,7 +176,7 @@ class OneFeedVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        checkILikedThisFeedOrNot()
         navigationItem.title = "Feed"
         view.backgroundColor = .white
         configureView()
@@ -308,6 +324,85 @@ class OneFeedVC: UIViewController {
         captionLabel.leftAnchor.constraint(equalTo: usernameLabel2.rightAnchor, constant: 7).isActive = true
         captionLabel.centerYAnchor.constraint(equalTo: usernameandcaptioncontainer.centerYAnchor).isActive = true
         
+    }
+    
+    func checkILikedThisFeedOrNot(){
+        if let feedId = self.feedId, let email = Auth.auth().currentUser?.email {
+            db.collection("likes").getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                }else {
+                    for document in querySnapshot!.documents {
+                        let data = document.data()
+                        guard let fi = data["feedId"] as? String,
+                        let ci = data["id"] as? String,
+                        let ue = data["userEmail"] as? String
+                            else { return }
+                        
+                        if feedId == fi {
+                            self.likes += 1
+                        }
+                        
+                        if feedId == fi, email == ue {
+                            // 좋아요를 누른 게시물
+                            self.likeId = ci
+                            let fullHeartImage = UIImage(named: "like_selected")
+                            self.heartIcon.image = fullHeartImage
+                            let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.fullheartTapped))
+                            self.heartIcon.addGestureRecognizer(tapRecognizer)
+                        }
+                        
+                    }
+                    self.likeLabel.text = "\(self.likes) likes"
+                }
+            }
+        }
+    }
+    
+    func unlikeFunction(){
+        guard self.likeId != nil else { return }
+        db.collection("likes").document(self.likeId!).delete { (error) in
+            if let error = error {
+                print(error.localizedDescription)
+            }else {
+                self.likes -= 1
+                self.likeLabel.text = "\(self.likes) likes"
+                let fullHeartImage = UIImage(named: "like_unselected")
+                self.heartIcon.image = fullHeartImage
+                let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.heartTapped))
+                self.heartIcon.addGestureRecognizer(tapRecognizer)
+            }
+        }
+    }
+    
+    func likeFunction(){
+        guard self.feedId != nil else { return }
+        var ref:DocumentReference?
+        ref = db.collection("likes").addDocument(data: [
+            "feedId" : self.feedId!,
+            "userEmail" : Auth.auth().currentUser!.email!
+        ]) { err in
+        if let err = err {
+            print("Error adding document: \(err)")
+        } else {
+            print("Document added with ID: \(ref!.documentID)")
+            self.db.collection("likes").document(ref!.documentID).updateData([
+                "id":ref!.documentID
+            ]) { (error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                }else {
+                    print("Document successfully updated")
+                    self.likes += 1
+                    self.likeLabel.text = "\(self.likes) likes"
+                    let fullHeartImage = UIImage(named: "like_selected")
+                    self.heartIcon.image = fullHeartImage
+                    let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.fullheartTapped))
+                    self.heartIcon.addGestureRecognizer(tapRecognizer)
+                }
+            }
+            }
+        }
     }
     
 }
