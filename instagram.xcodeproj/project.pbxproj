@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		701435BB241110AD00CCAAFB /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701435BA241110AD00CCAAFB /* NotificationCell.swift */; };
+		701435BD2411144600CCAAFB /* Like.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701435BC2411144600CCAAFB /* Like.swift */; };
 		704A0DDD240F87E700EB8DA2 /* OneFeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704A0DDC240F87E700EB8DA2 /* OneFeedVC.swift */; };
 		704A0DE2240FC5F100EB8DA2 /* CommentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704A0DE1240FC5F100EB8DA2 /* CommentVC.swift */; };
 		704A0DE4240FC8A700EB8DA2 /* CommentHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704A0DE3240FC8A700EB8DA2 /* CommentHeader.swift */; };
@@ -43,6 +45,8 @@
 
 /* Begin PBXFileReference section */
 		4A466C067DAC4AFFC49F47D4 /* Pods-instagram.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-instagram.release.xcconfig"; path = "Target Support Files/Pods-instagram/Pods-instagram.release.xcconfig"; sourceTree = "<group>"; };
+		701435BA241110AD00CCAAFB /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
+		701435BC2411144600CCAAFB /* Like.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Like.swift; sourceTree = "<group>"; };
 		704A0DDC240F87E700EB8DA2 /* OneFeedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneFeedVC.swift; sourceTree = "<group>"; };
 		704A0DE1240FC5F100EB8DA2 /* CommentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentVC.swift; sourceTree = "<group>"; };
 		704A0DE3240FC8A700EB8DA2 /* CommentHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentHeader.swift; sourceTree = "<group>"; };
@@ -167,6 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				70D4359D240BCEB700263277 /* NotificationVC.swift */,
+				701435BA241110AD00CCAAFB /* NotificationCell.swift */,
 			);
 			path = Notification;
 			sourceTree = "<group>";
@@ -233,6 +238,7 @@
 				70501704240D01450032F997 /* User.swift */,
 				70F3DA3F240E212D0050F9EC /* Post.swift */,
 				70C70C6D24101E5500F1FAD3 /* Comment.swift */,
+				701435BC2411144600CCAAFB /* Like.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -414,12 +420,14 @@
 				7093AFDD240D53C50058F650 /* SelectImageVC.swift in Sources */,
 				70F5106D240E50CF0038E904 /* FeedCell.swift in Sources */,
 				7086E217240BF26F00FA3EB6 /* ProfileHeader.swift in Sources */,
+				701435BB241110AD00CCAAFB /* NotificationCell.swift in Sources */,
 				70D4359C240BCE9B00263277 /* PostVC.swift in Sources */,
 				70ECD67D240B5E9A0058B524 /* SignUpVC.swift in Sources */,
 				70ECD67B240B4CD60058B524 /* Extensions.swift in Sources */,
 				7093AFDB240D41180058F650 /* FollowingCell.swift in Sources */,
 				704A0DE4240FC8A700EB8DA2 /* CommentHeader.swift in Sources */,
 				70C70C6E24101E5500F1FAD3 /* Comment.swift in Sources */,
+				701435BD2411144600CCAAFB /* Like.swift in Sources */,
 				70F3DA40240E212D0050F9EC /* Post.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

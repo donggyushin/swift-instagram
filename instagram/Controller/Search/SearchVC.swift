@@ -17,10 +17,21 @@ class SearchVC: UITableViewController {
     
     var users:[User] = []
     
+    lazy var searchBar:UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.sizeToFit()
+        searchBar.placeholder = "Search user by username"
+        return searchBar
+    }()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchUsers()
-        navigationItem.title = "Explore"
+//        navigationItem.title = "Explore"
+        
+        let leftNavBarButton = UIBarButtonItem(customView: searchBar)
+        self.navigationItem.leftBarButtonItem = leftNavBarButton
         
         tableView.register(SearchCell.self, forCellReuseIdentifier: searchCellIdenrifier)
         tableView.separatorStyle = .none

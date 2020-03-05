@@ -292,6 +292,8 @@ class FeedCell: UICollectionViewCell {
     
     @objc func fullheartTapped(){
         guard self.likeId != nil else { return }
+        let deleteRecognizer = UITapGestureRecognizer(target: self, action: #selector(nothingFunc))
+        self.heartImage.addGestureRecognizer(deleteRecognizer)
         db.collection("likes").document(self.likeId!).delete { (error) in
             if let error = error {
                 print(error.localizedDescription)
@@ -309,12 +311,16 @@ class FeedCell: UICollectionViewCell {
         print("here")
         guard let email = Auth.auth().currentUser?.email,
             let feedId = self.feedId else { return }
+        guard self.userEmail != nil else { return }
+        let deleteRecognizer = UITapGestureRecognizer(target: self, action: #selector(nothingFunc))
+        self.heartImage.addGestureRecognizer(deleteRecognizer)
         
         var ref: DocumentReference?
         
         ref = db.collection("likes").addDocument(data: [
             "feedId": feedId,
-            "userEmail": email
+            "userEmail": email,
+            "feedUserEmail":self.userEmail!
             ], completion: { (error) in
                 if let error = error {
                     print(error.localizedDescription)
@@ -339,7 +345,7 @@ class FeedCell: UICollectionViewCell {
         
     }
     
-    
+    @objc func nothingFunc(){}
     
     func fetchUser(){
         if let email = self.userEmail {
@@ -369,6 +375,7 @@ class FeedCell: UICollectionViewCell {
                                         
                                     }   
                                 }
+                            return
                         }
                     }
                 }

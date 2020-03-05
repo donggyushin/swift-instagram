@@ -361,6 +361,8 @@ class OneFeedVC: UIViewController {
     
     func unlikeFunction(){
         guard self.likeId != nil else { return }
+        let deleteRecognizer = UITapGestureRecognizer(target: self, action: #selector(nothingFunc))
+        self.heartIcon.addGestureRecognizer(deleteRecognizer)
         db.collection("likes").document(self.likeId!).delete { (error) in
             if let error = error {
                 print(error.localizedDescription)
@@ -375,12 +377,18 @@ class OneFeedVC: UIViewController {
         }
     }
     
+    @objc func nothingFunc() { }
+    
     func likeFunction(){
         guard self.feedId != nil else { return }
+        guard self.post != nil else { return }
+        let deleteRecognizer = UITapGestureRecognizer(target: self, action: #selector(nothingFunc))
+        self.heartIcon.addGestureRecognizer(deleteRecognizer)
         var ref:DocumentReference?
         ref = db.collection("likes").addDocument(data: [
             "feedId" : self.feedId!,
-            "userEmail" : Auth.auth().currentUser!.email!
+            "userEmail" : Auth.auth().currentUser!.email!,
+            "feedUserEmail" : self.post!.useremail
         ]) { err in
         if let err = err {
             print("Error adding document: \(err)")
